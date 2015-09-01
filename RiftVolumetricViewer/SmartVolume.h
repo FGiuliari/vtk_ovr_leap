@@ -50,6 +50,7 @@ public:
 	vtkPiecewiseFunction *opacityFun;
 	vtkVolumeProperty *property;
 	vtkInteractorStyleTrackballActor *style;
+	double initialOrientation[3];
 	double opacityWindow;
 	double opacityLevel;
 	int blendType;

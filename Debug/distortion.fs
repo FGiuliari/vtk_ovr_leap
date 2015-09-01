@@ -8,12 +8,11 @@ uniform vec2 rightLensCenter;
 uniform vec4 hmdWarpParam;
 uniform vec2 scaleIn;
 
-
 void main(void)
 {
 	vec2 tcoord=gl_TexCoord[0].st;
 	vec2 lensCenter;
-    bool isleft=true;
+	bool isLeft=true;
 	//changed coordinate adaptation to solve volume stretiching and volume displacement, find another solution?
 	if(tcoord[0]>0.5){
 		tcoord[0]=tcoord[0]*2.0;
@@ -21,7 +20,7 @@ void main(void)
 		//tcoord[0]-=0.25;
 		//gl_FragColor=texture2D(source3,tcoord);
 		lensCenter=rightLensCenter;
-        isleft=false;
+		isLeft=false;
 	}
 	else{
 		tcoord[0]*=2.0;
@@ -39,8 +38,11 @@ void main(void)
 	if (any(bvec2(clamp(tc, screenCenter - vec2(0.5,0.5), screenCenter + vec2(0.5,0.5))-tc)))
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	else{
-		if(!isleft) gl_FragColor = texture2D(source3, tc);
-		else gl_FragColor = texture2D(source, tc);
+		if(!isLeft) gl_FragColor = texture2D(source3, (tc*vec2(0.5,1.0)+vec2(0.25,0.0)));
+		else gl_FragColor = texture2D(source, (tc*vec2(0.5,1.0)+vec2(0.25,0.0)));
+
+//        if(!isLeft) gl_FragColor = texture2D(source3,tc*vec2(0.5,1.0));
+//		else gl_FragColor = texture2D(source, tc*vec2(0.5,1.0));
 	}
 		
 }

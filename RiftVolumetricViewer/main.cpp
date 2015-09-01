@@ -11,6 +11,8 @@
 #include <vtkConeSource.h>
 #include <vtkPolyDataMapper.h>
 #include "LeapCallback.h"
+#include "GestureManagerType1.h"
+#include "GestureManagerType2.h"
 
 
 class vtkTimerCallback : public vtkCommand{
@@ -127,7 +129,7 @@ int main(int argc, char *argv[]){
 
 	vtkSmartPointer<vtkTimerCallback> tcb = vtkSmartPointer<vtkTimerCallback>::New();
 	sv->iren->AddObserver(vtkCommand::TimerEvent, tcb);
-	int timerId = sv->iren->CreateRepeatingTimer(16);
+	int timerId = sv->iren->CreateRepeatingTimer(2);
 	tcb->Configure(sv->renWin,sv);
 
 	vtkCallbackCommand *keypressCallback = vtkCallbackCommand::New();
@@ -136,17 +138,27 @@ int main(int argc, char *argv[]){
 
 	vtkSmartPointer<LeapCallback> leap = vtkSmartPointer<LeapCallback>::New();
 	sv->iren->AddObserver(vtkCommand::TimerEvent, leap);
-	int timerId1 = sv->iren->CreateRepeatingTimer(16);
-	leap->Configure(sv->renWin, sv);
+	int timerId1 = sv->iren->CreateRepeatingTimer(2);
+	GestureManagerType2 man;
+	leap->Configure(sv->renWin, sv, &man);
 
 	// Add the volume to the scene
 	//volume->SetPosition(0.0, 0.0, 0.0);
 	sv->renderer->AddVolume(sv->volume);
 	sv->renderer->ResetCamera();
+	double pos[3];
+	sv->renderer->GetActiveCamera()->GetPosition(pos);
+	pos[2] += 500;
+	sv->renderer->GetActiveCamera()->SetPosition(pos);
+	sv->renderer->GetActiveCamera()->SetClippingRange(0.1, 10000);
+	sv->initCam->DeepCopy(sv->renderer->GetActiveCamera());
 
 
 	// interact with data
-	
+	vtkPlanes *planes = vtkPlanes::New();
+	sv->box->GetPlanes(planes);
+	sv->volume->GetMapper()->SetClippingPlanes(planes);
+	sv->renWin->GlobalWarningDisplayOff();
 	sv->iren->Start();
 	//sv->renWin->BordersOff();
 	//sv->Start(1228, 768);

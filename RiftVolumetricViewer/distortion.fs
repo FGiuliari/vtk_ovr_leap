@@ -38,8 +38,8 @@ void main(void)
 	if (any(bvec2(clamp(tc, screenCenter - vec2(0.5,0.5), screenCenter + vec2(0.5,0.5))-tc)))
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	else{
-		if(!isLeft) gl_FragColor = texture2D(source3, (tc*vec2(0.5,1.0)+vec2(0.15,0.0)));
-		else gl_FragColor = texture2D(source, (tc*vec2(0.5,1.0)+vec2(0.35,0.0)));
+		if(!isLeft) gl_FragColor = texture2D(source3, (tc*vec2(0.5,1.0)+vec2(0.25,0.0)));
+		else gl_FragColor = texture2D(source, (tc*vec2(0.5,1.0)+vec2(0.25,0.0)));
 
 //        if(!isLeft) gl_FragColor = texture2D(source3,tc*vec2(0.5,1.0));
 //		else gl_FragColor = texture2D(source, tc*vec2(0.5,1.0));

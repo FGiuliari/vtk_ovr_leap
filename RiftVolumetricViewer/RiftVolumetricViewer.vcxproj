@@ -68,17 +68,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractLeapGestureManager.cpp" />
+    <ClCompile Include="GestureManagerType1.cpp" />
+    <ClCompile Include="GestureMenagerType2.cpp" />
     <ClCompile Include="LeapCallback.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rift_middleware.cpp" />
     <ClCompile Include="SmartVolume.cpp" />
+    <ClCompile Include="VolumeTransformManager.cpp" />
     <ClCompile Include="vtkBoxWidgetCallback.cpp" />
     <ClCompile Include="vtkStereoDistortPass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractLeapGestureManager.h" />
+    <ClInclude Include="GestureManagerType1.h" />
+    <ClInclude Include="GestureManagerType2.h" />
     <ClInclude Include="LeapCallback.h" />
     <ClInclude Include="rift_middleware.h" />
     <ClInclude Include="SmartVolume.h" />
+    <ClInclude Include="VolumeTransformManager.h" />
     <ClInclude Include="vtkBoxWidgetCallback.h" />
     <ClInclude Include="vtkStereoDistortPass.h" />
   </ItemGroup>

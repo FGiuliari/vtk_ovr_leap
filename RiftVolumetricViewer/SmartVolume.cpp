@@ -75,13 +75,14 @@ void SmartVolume::KeypressCallbackFunction(vtkObject* caller, long unsigned int 
 		smvol->setBlendingMode(blendType);
 	}
 	//resets volume and bounding box position and sections
-	if (strcmp(iren->GetKeySym(), "r") == 0){
+	if (strcmp(iren->GetKeySym(), "t") == 0){
 		smvol->renderer->GetActiveCamera()->DeepCopy(smvol->initCam);
 		smvol->box->SetTransform(smvol->boxtrans);
 		vtkPlanes *planes = vtkPlanes::New();
 		smvol->box->GetPlanes(planes);
 		smvol->volume->GetMapper()->SetClippingPlanes(planes);
 		planes->Delete();
+		smvol->volume->SetOrientation(smvol->initialOrientation);
 	}
 	//enable/disable box
 	if (strcmp(iren->GetKeySym(), "c") == 0){
@@ -512,16 +513,21 @@ void SmartVolume::Init(int argc, char *argv[]){
 	// connect up the volume to the property and the mapper
 	volume->SetProperty(property);
 	volume->SetMapper(mapper);
+
+	volume->GetOrientation(initialOrientation);
 	if (DEBUG){
 		blendType = 0;
+	//	volume->SetPosition()
 	}
 	this->setBlendingMode(blendType);
 
 	boxtrans = vtkTransform::New();
 	boxtrans->DeepCopy(boxtrans);
 	initCam = vtkCamera::New();
-	initCam->DeepCopy(renderer->GetActiveCamera());
+	double pos[3];
 	
+	initCam->DeepCopy(renderer->GetActiveCamera());
+
 }
 void SmartVolume::Start(int w, int h){
 	// Set the default window size
@@ -532,13 +538,11 @@ void SmartVolume::Start(int w, int h){
 
 	renderer->AddVolume(volume);
 	
-	renderer->ResetCamera();
-	
 
 	// interact with data
 	iren->Initialize();
-	iren->Start();
 
+	iren->Start();
 	opacityFun->Delete();
 	colorFun->Delete();
 	property->Delete();
